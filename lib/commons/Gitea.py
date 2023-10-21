@@ -4,18 +4,20 @@ import lib.secrets as secrets
 import lib.commons.Platform as Platform
 import lib.commons.Credentials as Credentials
 import lib.commons.Repository as Repository
+import lib.commons.User as User
 
 import requests
+import logging
 
 class Gitea(Platform):
     @staticmethod
     def from_env(key: str) -> Gitea:
-        Gitea(secrets.get_env_or_raise("%s_GITEA_URL" %s key))
+        return Gitea(secrets.get_env_or_raise("%s_GITEA_URL" % key))
 
     def __init__(self, instance: str):
         super().__init__(instance)
 
-    def get_repositories_of_user(self, user: User, credentials: Credentials) -> list[Repository]:
+    def get_user_repositores(self, user: User, credentials: Credentials) -> list[Repository]:
         auth = (credentials.get_username(),
                 credentials.get_token())
         headers = {
@@ -38,7 +40,7 @@ class Gitea(Platform):
             config["wiki"] = True
         return config
 
-    def migrate(self, repo: Repository, config: dict, credentials: Credentials) -> Repository:
+    def migrate_repository(self, repo: Repository, config: dict, credentials: Credentials) -> Repository:
         config = self._validate_migration_config(config)
         url = "%s/api/v1/repos/migrate" % self.get_url()
         auth = (credentials.get_username(),
@@ -49,7 +51,7 @@ class Gitea(Platform):
         }
         data = {
             "auth_username": credentials.get_username(),
-            "auth_password": credentials.get_token(),
+            "auth_token": credentials.get_token(),
             "clone_addr": repo.get_url(),
             "mirror": config["mirror"],
             "private": config["private"],
@@ -59,5 +61,9 @@ class Gitea(Platform):
             "uid": 0,
             "wiki": config["wiki"]
         }
-        response = requests.post(url, headers=headers, auth=auth, data=data)
-        return Repository.from_json(response.json())
+        response = requests.post(url, headers=headers, auth=auth, json=data)
+        if bool(response):
+            return Repository.from_json(response.json())
+        else:
+            logging.error("%s: %s" % (response, response.json()))
+            return None

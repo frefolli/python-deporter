@@ -15,14 +15,19 @@ class Repository:
         self._full_name = full_name
         self._url = url
 
-        def get_name(self) -> str:
-            return self._name
+    def get_name(self) -> str:
+        return self._name
 
-        def get_full_name(self) -> str:
-            return self._full_name
+    def get_full_name(self) -> str:
+        return self._full_name
 
-        def get_url(self) -> str:
-            return self._url
+    def get_url(self) -> str:
+        return self._url
 
-        def __repr__(self) -> str:
-            return self.get_full_name()
+    def __repr__(self) -> str:
+        return self.get_full_name()
+
+    def to_json(self) -> dict:
+        return {"name": self.get_name(),
+                "full_name": self.get_full_name(),
+                "html_url": self.get_url()}

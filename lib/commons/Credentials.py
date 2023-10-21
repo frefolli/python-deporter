@@ -19,3 +19,6 @@ class Credentials:
 
     def get_token(self) -> str:
         return self._token
+
+    def __repr__(self) -> str:
+        return self.get_username()

@@ -23,3 +23,6 @@ class Repository:
 
         def get_url(self) -> str:
             return self._url
+
+        def __repr__(self) -> str:
+            return self.get_full_name()

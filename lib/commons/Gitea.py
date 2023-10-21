@@ -53,7 +53,7 @@ class Gitea(Platform):
             "clone_addr": repo.get_url(),
             "mirror": config["mirror"],
             "private": config["private"],
-            "repo_name": "$REPO_NAME",
+            "repo_name": repo.get_name(),
             "repo_owner": credentials.get_username(),
             "service": "git",
             "uid": 0,

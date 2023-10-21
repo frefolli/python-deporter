@@ -12,3 +12,6 @@ class Platform(abc.ABC):
 
     def get_url(self) -> str:
         return self._url
+
+    def __repr__(self) -> str:
+        return self.get_url()

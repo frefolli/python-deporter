@@ -4,4 +4,4 @@ from .Repository import Repository
 from .Platform import Platform
 from .Github import Github
 from .Gitea import Gitea
-from .Cache import Cache
+from .OldCache import Cache

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 class Repository:
     @staticmethod
-    def from_json(data: dict) -> Repository:
+    def from_dict(data: dict) -> Repository:
         return Repository(data["name"],
                           data["full_name"],
                           data["html_url"])
@@ -27,7 +27,7 @@ class Repository:
     def __repr__(self) -> str:
         return self.get_full_name()
 
-    def to_json(self) -> dict:
+    def to_dict(self) -> dict:
         return {"name": self.get_name(),
                 "full_name": self.get_full_name(),
                 "html_url": self.get_url()}

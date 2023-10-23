@@ -1,16 +1,16 @@
 import json
 import os
+import lib.cache.Cache as Cache
 
-class Cache:
-    def __init__(self, path: str, always_save: bool = False):
+class OldCache(Cache):
+    def __init__(self, path: str, eager: bool = False):
+        super().__init__(path, eager)
         self._cache = {}
-        self._path = path
-        self._always_save = always_save
         self.read()
 
     def set(self, key: str, value):
         self._cache[key] = value
-        if self._always_save:
+        if self._eager:
             self.write()
 
     def get(self, key: str):

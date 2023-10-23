@@ -1,9 +1,10 @@
 from __future__ import annotations
-import lib.fs.Yaml.Yaml as Yaml
-import lib.fs.Json.Json as Json
+import lib.fs.impl.Yaml as Yaml
+import lib.fs.impl.Json as Json
 import os
+import abc
 
-class File:
+class File(abc.ABC):
     @staticmethod
     def file_ext(path: str) -> str:
         path.split(os.path.extsep)[-1]

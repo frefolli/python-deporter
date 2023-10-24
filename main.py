@@ -8,15 +8,6 @@ import lib.commons.Repository as Repository
 import coloredlogs, logging
 coloredlogs.install()
 
-gitea = Gitea.from_env("REFOLINUX")
-github = Github()
-
-github_creds = Credentials.from_env("FREFOLLI_GITHUB")
-gitea_creds = Credentials.from_env("FREFOLLI_GITEA")
-
-github_user = User("frefolli")
-gitea_user = User("frefolli")
-
 def cache_repositories(cache, repos):
     cache.set("repositories", [repo.to_json() for repo in repos])
 
@@ -32,7 +23,7 @@ def identify_repositories(platform, user, credentials):
         logging.info("- %s" % repo)
 
 def migrate_repositories(source, destination):
-    cache = Cache.new(".cache", eager = True)
+    cache = Cache.new(".cache.yml", eager = True)
     repositories = get_cached_repositories(cache)
     if repositories is None:
         logging.info("Fetching %s for repositories ..." % source["platform"])
@@ -50,6 +41,15 @@ def migrate_repositories(source, destination):
             logging.info("%s => %s" % (repo, result))
 
 def migrate():
+    gitea = Gitea.from_env("REFOLINUX")
+    github = Github()
+
+    github_creds = Credentials.from_env("FREFOLLI_GITHUB")
+    gitea_creds = Credentials.from_env("FREFOLLI_GITEA")
+
+    github_user = User("frefolli")
+    gitea_user = User("frefolli")
+
     migration = {
         "source": {
             "platform": github,
@@ -65,7 +65,7 @@ def migrate():
     migrate_repositories(migration["source"], migration["destination"])
 
 def demo():
-    cache = Cache.new(".cache", eager = True)
+    cache = Cache.new(".cache.yml", eager = True)
     cache.set('ok', [12,23])
 
 if __name__ == "__main__":

@@ -1,13 +1,11 @@
 from __future__ import annotations
-import lib.fs.impl.Yaml as Yaml
-import lib.fs.impl.Json as Json
 import os
 import abc
 
 class File(abc.ABC):
     @staticmethod
     def file_ext(path: str) -> str:
-        path.split(os.path.extsep)[-1]
+        return path.split(os.path.extsep)[-1]
     @staticmethod
     def relative(base: str, path: str) -> File:
         return File.absolute(os.path.join(base, path))
@@ -16,14 +14,16 @@ class File(abc.ABC):
     def absolute(path: str) -> File:
         ext = File.file_ext(path)
         if ext == "yml":
-            return Yaml.absolute(path)
+            import lib.fs.yaml as impl_yaml
+            return impl_yaml.Yaml.absolute(path)
         elif ext == "json":
-            return Json.absolute(path)
+            import lib.fs.json as impl_json
+            return impl_json.Json.absolute(path)
         else:
             raise Exception("unknown file extension '%s'" % ext)
 
     @abc.abstractmethod
-    def skel(self, klass) -> File:
+    def skel(self, skel) -> File:
         pass
 
     @abc.abstractmethod

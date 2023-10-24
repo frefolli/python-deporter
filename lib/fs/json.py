@@ -16,8 +16,8 @@ class Json(File):
         self._path = path
         self._skel = None
 
-    def skel(self, klass) -> Json:
-        self._skel = klass.SKEL
+    def skel(self, skel) -> Json:
+        self._skel = skel
         return self
 
     def read(self) -> dict:

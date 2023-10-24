@@ -16,8 +16,8 @@ class Yaml(File):
         self._path = path
         self._skel = None
 
-    def skel(self, klass) -> Yaml:
-        self._skel = klass.SKEL
+    def skel(self, skel) -> Yaml:
+        self._skel = skel
         return self
 
     def read(self) -> dict:

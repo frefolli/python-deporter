@@ -5,6 +5,7 @@ import lib.commons.Credentials as Credentials
 import lib.commons.User as User
 import lib.cache.Cache as Cache
 import lib.commons.Repository as Repository
+import lib.cli.Cli as Cli
 import coloredlogs, logging
 coloredlogs.install()
 
@@ -64,10 +65,7 @@ def migrate():
     }
     migrate_repositories(migration["source"], migration["destination"])
 
-def demo():
-    cache = Cache.new(".cache.yml", eager = True)
-    cache.set('ok', [12,23])
-
 if __name__ == "__main__":
     # migrate()
-    demo()
+    config = Cli.run()
+    print(config)

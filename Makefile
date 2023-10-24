@@ -1,8 +1,5 @@
 @all:
-	./venv/bin/python -m main
-
-i:
-	./venv/bin/python
+	echo "make [enter | leave | clean]"
 
 clean:
 	rm -rf $(find lib -name __pycache__) __pycache__/

@@ -27,7 +27,7 @@ class Gitea(Platform):
         response = requests.get("%s/api/v1/users/%s/repos" % (self.get_url(),
                                                               username),
                                 headers=headers, auth=auth)
-        return [Repository.from_json(_) for _ in response.json()]
+        return [Repository.from_dict(_) for _ in response.json()]
 
     def _validate_migration_config(self, config: dict = None) -> dict:
         if config is None:
@@ -63,7 +63,7 @@ class Gitea(Platform):
         }
         response = requests.post(url, headers=headers, auth=auth, json=data)
         if bool(response):
-            return Repository.from_json(response.json())
+            return Repository.from_dict(response.json())
         else:
             logging.error("%s: %s" % (response, response.json()))
             return None

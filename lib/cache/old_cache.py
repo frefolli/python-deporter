@@ -1,7 +1,9 @@
 import json
 import os
 import lib.cache.Cache as Cache
+import lib.utils as utils
 
+@utils.deprecated("Use lib.cache.Cache instead")
 class OldCache(Cache):
     def __init__(self, path: str, eager: bool = False):
         super().__init__(path, eager)

@@ -16,7 +16,7 @@ class Github(Platform):
         response = requests.get("https://api.github.com/users/%s/repos" % username,
                                 headers=headers,
                                 auth=auth)
-        return [Repository.from_dict(_) for _ in response.json()]
+        return Repository.from_dict_list(response.json())
 
     def migrate_repository(self, repo: Repository, config: dict, credentials: Credentials) -> Repository:
         raise Exception("repository migration on implemented for `lib.commons.Github`")

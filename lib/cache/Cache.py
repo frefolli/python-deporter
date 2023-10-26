@@ -22,6 +22,10 @@ class Cache(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def has(self, key: str) -> bool:
+        pass
+
+    @abc.abstractmethod
     def read(self):
         pass
 

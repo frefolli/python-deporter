@@ -11,6 +11,10 @@ class Repository:
     def from_dict_list(data: list[dict]) -> list[Repository]:
         return list(map(Repository.from_dict, data))
 
+    @staticmethod
+    def to_dict_list(data: list[Repository]) -> list[dict]:
+        return list(map(Repository.to_dict, data))
+
     def __init__(self,
                  name: str,
                  full_name: str,

@@ -10,9 +10,9 @@ class Platform(abc.ABC):
         import lib.commons.Gitea
         import lib.commons.Github
         if platform['name'] == 'github':
-            return Github()
+            return lib.commons.Github()
         elif platform['name'] == 'gitea':
-            return Gitea(url=platform['url'])
+            return lib.commons.Gitea(instance=platform['url'])
         else:
             raise Exception("unknown platform name '%s'" % platform['name'])
 

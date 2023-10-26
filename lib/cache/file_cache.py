@@ -16,9 +16,11 @@ class FileCache(Cache):
     def get(self, key: str):
         return self._cache.get(key)
 
+    def has(self, key: str) -> bool:
+        return key in self._cache
+
     def read(self):
         self._cache = File.absolute(self._path).skel({}).read()
 
     def write(self):
-        print("%s => %s" % (self._path, self._cache))
         File.absolute(self._path).write(self._cache)

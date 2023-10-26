@@ -3,8 +3,7 @@ import datetime as dt
 def now() -> dt.datetime:
     return dt.datetime.now()
 
-def is_old(string: str) -> bool:
+def is_old(other: dt.datetime) -> bool:
     current = now()
-    other = dt.datetime.fromisoformat(string)
     diff = current - other
-    return (diff.seconds >= 3600 or diff.days > 0)
+    return (diff.days > 0) #diff.seconds >= 3600

@@ -18,6 +18,9 @@ class OldCache(Cache):
     def get(self, key: str):
         return self._cache.get(key)
 
+    def has(self, key: str) -> bool:
+        return key in self._cache
+
     def read(self):
         if os.path.exists(self._path):
             with open(self._path, mode="r", encoding="utf-8") as file:

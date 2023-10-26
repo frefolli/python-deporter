@@ -3,6 +3,7 @@ import abc
 import lib.commons.Platform as Platform
 import lib.commons.User as User
 import lib.commons.Repository as Repository
+import lib.commons.Credentials as Credentials
 
 class DB(abc.ABC):
     @staticmethod
@@ -18,6 +19,9 @@ class DB(abc.ABC):
     
     def user(self, user: User) -> DB:
         self._context['user'] = user
+    
+    def credentials(self, credentials: Credentials) -> DB:
+        self._context['credentials'] = credentials
     
     def repository(self, repository: Repository) -> DB:
         self._context['repository'] = repository

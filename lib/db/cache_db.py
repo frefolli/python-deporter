@@ -1,6 +1,9 @@
 import lib.db.DB as DB
 import lib.commons.Repository as Repository
 import lib.commons.datetime as datetime
+#TODO: abstract "actions"
+#TODO: unify access to actions or abstractions
+#TODO: simplify program flow
 
 class CacheDB(DB):
     def __init__(self, update: bool = False):

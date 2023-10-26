@@ -1,5 +1,5 @@
 from __future__ import annotations
-import lib.secrets as secrets
+import lib.utils as utils
 
 import lib.commons.Platform as Platform
 import lib.commons.Credentials as Credentials
@@ -11,7 +11,9 @@ import logging
 
 class Gitea(Platform):
     @staticmethod
+    @utils.deprecated("Use Platform.from_dict instead")
     def from_env(key: str) -> Gitea:
+        import lib.secrets as secrets
         return Gitea(secrets.get_env_or_raise("%s_GITEA_URL" % key))
 
     def __init__(self, instance: str):

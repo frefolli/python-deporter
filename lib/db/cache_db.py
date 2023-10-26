@@ -1,7 +1,7 @@
 import lib.db.DB as DB
 import lib.commons.Repository as Repository
 import lib.commons.datetime as datetime
-#TODO: abstract "actions"
+import lib.actions as actions
 #TODO: unify access to actions or abstractions
 #TODO: simplify program flow
 
@@ -10,9 +10,9 @@ class CacheDB(DB):
         super().__init__(update=update)
         self._cache = Cache.new('.cache.yml', eager=False)
 
-    @abc.abstractmethod
     def get_repositories(self) -> list[Repository]:
-        url = self._context['platform'].get_url()
+        platform = self._context['platform']
+        url = platform.get_url()
         username = self._context['user'].get_username()
         credentials = self._context['credentials']
         
@@ -23,18 +23,21 @@ class CacheDB(DB):
         if username not in self._cache[url]:
             self._cache[url][username] = {}
         
-        if ('repos' in self._cache[url][username]):
-            repos = self._cache[url][username]['repos']
-            if not datetime.is_old(repos['updated_at']):
-                return [Repository.from_dict(repo) for repo in repos['data'].values()]
+        if ((self._update)
+            or ('repos' not in self._cache[url][username])
+            or (datetime.is_old(self._cache[url][username]['repos']['updated_at']))):
+            self._cache[url][username]['repos'] = {
+                'updated_at': datetime.now()
+                'data': actions.get_repositories_from_platform(
+                    platform=platform,
+                    user=platform,
+                    credentials=credentials,
+                    as_dict=True
+                )
+            }
 
-        repos = {
-            'updated_at': datetime.now()
-            'data': {}
-        }
-        for repo in platform.get_user_repositories(user, credentials):
-            repos['data'][repo.name] = repo.to_dict()
-        self._cache[url][username]['repos'] = repos
-        self._cache.write()
-        self.clear()
-        return [Repository.from_dict(repo) for repo in repos['data'].values()]
+        return actions.use_cached_repositories(
+            repos=self._cache[url][username]['repos']['data']
+            platform=platform,
+            user=platform
+        )

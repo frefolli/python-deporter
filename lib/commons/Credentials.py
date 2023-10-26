@@ -1,9 +1,11 @@
 from __future__ import annotations
-import lib.secrets as secrets
+import lib.utils as utils
 
 class Credentials:
     @staticmethod
+    @utils.deprecated("Use Platform.from_dict instead")
     def from_env(key: str) -> Credentials:
+        import lib.secrets as secrets
         username = secrets.get_env_or_raise("%s_USERNAME" % key)
         token = secrets.get_env_or_raise("%s_TOKEN" % key)
         return Credentials(username, token)

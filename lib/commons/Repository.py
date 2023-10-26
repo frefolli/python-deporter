@@ -7,6 +7,10 @@ class Repository:
                           data["full_name"],
                           data["html_url"])
 
+    @staticmethod
+    def from_dict_list(data: list[dict]) -> list[Repository]:
+        return list(map(Repository.from_dict, data))
+
     def __init__(self,
                  name: str,
                  full_name: str,

@@ -9,20 +9,6 @@ import lib.cli.Cli as Cli
 import coloredlogs, logging
 coloredlogs.install()
 
-def cache_repositories(cache, repos):
-    cache.set("repositories", [repo.to_json() for repo in repos])
-
-def get_cached_repositories(cache):
-    repos = cache.get("repositories")
-    if repos is not None:
-        return [Repository.from_json(repo) for repo in repos]
-    return None
-
-def identify_repositories(platform, user, credentials):
-    logging.info("inside %s@%s" % (platform. user))
-    for repo in platform.get_user_repositores(user, credentials):
-        logging.info("- %s" % repo)
-
 def migrate_repositories(source, destination):
     cache = Cache.new(".cache.yml", eager = True)
     repositories = get_cached_repositories(cache)
@@ -66,6 +52,5 @@ def migrate():
     migrate_repositories(migration["source"], migration["destination"])
 
 if __name__ == "__main__":
-    # migrate()
     config = Cli.run()
     print(config)

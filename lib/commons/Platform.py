@@ -27,6 +27,10 @@ class Platform(abc.ABC):
     def migrate_repository(self, repo: Repository, config: dict, credentials: Credentials) -> Repository:
         pass
 
+    @abc.abstractmethod
+    def delete_repository(self, repo: Repository, credentials: Credentials) -> bool:
+        pass
+
     def get_url(self) -> str:
         return self._url
 

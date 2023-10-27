@@ -69,3 +69,20 @@ class Gitea(Platform):
         else:
             logging.error("%s: %s" % (repo, response.json()['message']))
             return None
+
+    def delete_repository(self, repo: Repository, credentials: Credentials) -> bool:
+        url = "%s/api/v1/repos/%s" % (self.get_url(), repo.get_full_name())
+        print(url)
+        auth = (credentials.get_username(),
+                credentials.get_token())
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        response = requests.delete(url, headers=headers, auth=auth)
+        if bool(response):
+            return True
+        else:
+            # logging.error("%s: %s" % (repo, response.json()['message']))
+            logging.error("%s: %s" % (repo, response))
+            return False

@@ -19,4 +19,7 @@ class Github(Platform):
         return Repository.from_dict_list(response.json())
 
     def migrate_repository(self, repo: Repository, config: dict, credentials: Credentials) -> Repository:
-        raise Exception("repository migration on implemented for `lib.commons.Github`")
+        raise Exception("repository migration not implemented for `lib.commons.Github`")
+
+    def delete_repository(self, repo: Repository, credentials: Credentials) -> bool:
+        raise Exception("repository deletion not implemented for `lib.commons.Github`")

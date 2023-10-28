@@ -3,8 +3,10 @@ import re
 
 class Repository:
     @staticmethod
-    def from_full_name(full_name: str) -> Repository:
-        return Repository("", full_name, "")
+    def from_html_url(html_url: str) -> Repository:
+        full_name = "/".join(html_url.strip("/").split("/")[-2:])
+        name = full_name.split("/")[1]
+        return Repository(name, full_name, html_url)
 
     @staticmethod
     def from_dict(data: dict) -> Repository:

@@ -19,7 +19,7 @@ class Cli:
         argparser.add_argument("-s", "--source", type=str, help=("generic source node, expect a path to a configuration file [%s]" % " | ".join(self.markups)))
         argparser.add_argument("-d", "--destination", type=str, help=("generic destination node, expect a path to a configuration file [%s]" % " | ".join(self.markups)))
         argparser.add_argument("-m", "--mirror", type=str, help=("generic mirror node, expect a path to a configuration file [%s]" % " | ".join(self.markups)))
-        argparser.add_argument("-t", "--target", type=str, help=("generic target repository (expect '{username}/{repo-name}')"))
+        argparser.add_argument("-t", "--target", type=str, help=("generic target repository (expect '{instance}/{username}/{repo-name}')"))
         argparser.add_argument("-p", "--private", default=False, action="store_true", help="new repositories will be private")
         argparser.add_argument("-w", "--wiki", default=False, action="store_true", help="new repositories will have wiki enabled")
         argparser.add_argument("-u", "--update-db", default=False, action="store_true", help="force DB update")

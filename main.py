@@ -23,7 +23,7 @@ def do_migrate(config):
     repos = []
 
     if config.target:
-        repos = [Repository.from_full_name(config.target)]
+        repos = [Repository.from_html_url(config.target)]
     else:
         repos = (local_db.platform(source['platform'])
                          .user(source['user'])
@@ -54,7 +54,7 @@ def do_delete(config):
     local_db = DB.new(config.update_db)
 
     if config.target:
-        repos = [Repository.from_full_name(config.target)]
+        repos = [Repository.from_html_url(config.target)]
     else:
         repos = (local_db.platform(target['platform'])
                          .user(target['user'])

@@ -1,6 +1,11 @@
 from __future__ import annotations
+import re
 
 class Repository:
+    @staticmethod
+    def from_full_name(full_name: str) -> Repository:
+        return Repository("", full_name, "")
+
     @staticmethod
     def from_dict(data: dict) -> Repository:
         return Repository(data["name"],

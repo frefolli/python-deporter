@@ -3,6 +3,7 @@ import lib.cli.Cli as Cli
 import lib.fs.File as File
 import lib.db.DB as DB
 import lib.actions as actions
+import lib.commons.Repository as Repository
 import coloredlogs
 coloredlogs.install()
 
@@ -19,10 +20,15 @@ def do_list(config):
 def do_migrate(config):
     source = actions.read_profile(File.absolute(config.source).read())
     local_db = DB.new(config.update_db)
-    repos = (local_db.platform(source['platform'])
-                     .user(source['user'])
-                     .credentials(source['credentials'])
-                     .get_repositories())
+    repos = []
+
+    if config.target:
+        repos = [Repository.from_full_name(config.target)]
+    else:
+        repos = (local_db.platform(source['platform'])
+                         .user(source['user'])
+                         .credentials(source['credentials'])
+                         .get_repositories())
     
     if config.destination is not None:
         destination = actions.read_profile(File.absolute(config.destination).read())
@@ -31,11 +37,6 @@ def do_migrate(config):
             "private": config.private,
             "wiki": config.wiki
         })
-        (local_db.clear()
-                 .platform(destination['platform'])
-                 .user(destination['user'])
-                 .credentials(destination['credentials'])
-                 .set_repositories(repos))
     
     if config.mirror is not None:
         mirror = actions.read_profile(File.absolute(config.mirror).read())
@@ -44,11 +45,6 @@ def do_migrate(config):
             "private": config.private,
             "wiki": config.wiki
         })
-        (local_db.clear()
-                 .platform(mirror['platform'])
-                 .user(mirror['user'])
-                 .credentials(mirror['credentials'])
-                 .set_repositories(repos))
 
     if config.destination is None and config.mirror is None:
         logging.error("should specify at least a destination or a mirror for the migration to happen")
@@ -56,10 +52,14 @@ def do_migrate(config):
 def do_delete(config):
     target = actions.read_profile(File.absolute(config.source).read())
     local_db = DB.new(config.update_db)
-    repos = (local_db.platform(target['platform'])
-                     .user(target['user'])
-                     .credentials(target['credentials'])
-                     .get_repositories())
+
+    if config.target:
+        repos = [Repository.from_full_name(config.target)]
+    else:
+        repos = (local_db.platform(target['platform'])
+                         .user(target['user'])
+                         .credentials(target['credentials'])
+                         .get_repositories())
     
     actions.delete_repositories(target, repos)
     (local_db.clear()

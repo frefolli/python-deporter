@@ -3,10 +3,10 @@ people:
     surname: "Refolli"
     email: "francesco.refolli@gmail.com"
     role: "Contributor & Maintainer"
-pkgname: "python-cassandra"
+pkgname: "python-deporter"
 pkgver: "1.0.0-beta"
 pkgrel: 1
-pkgdesc: "Cassandra CLI Utility for handling cluster of VMs"
+pkgdesc: "CLI Utility for moving and handling multiple Git Server origins"
 license: 'GPL-3.0-or-later'
 arch:
   - 'any'
@@ -17,8 +17,11 @@ makedepends:
   - 'python-hatchling'
 depends:
   - 'python-yaml'
-url: "https://github.com/frefolli/python-cassandra"
-archive: "https://github.com/frefolli/python-cassandra/archive"
+  - 'python-coloredlogs'
+  - 'python-requests'
+  - 'python-dotenv'
+url: "https://github.com/frefolli/python-deporter"
+archive: "https://github.com/frefolli/python-deporter/archive"
 build:
   - "make BUILD_TYPE=release"
 package:

@@ -35,5 +35,6 @@ deporter-cli = "deporter.__main__:main_cli"
 
 [tool.hatch.build]
 include = [
-  "deporter/*.py"
+  "deporter/*.py",
+  "deporter/*/*.py"
 ]

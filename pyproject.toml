@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "deporter"
-version = "master"
+version = "1.0.0-beta"
 requires-python = ">= 3.10"
 license-files = { paths = ["LICENSE"] }
 authors = [

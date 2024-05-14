@@ -6,7 +6,7 @@ import abc
 class Cache(abc.ABC):
     @staticmethod
     def new(path: str = ".cache.yml", eager: bool = False) -> Cache:
-        import lib.cache.file_cache as impl_file
+        import deporter.cache.file_cache as impl_file
         return impl_file.FileCache(path, eager)
 
     def __init__(self, path: str, eager: bool = False):

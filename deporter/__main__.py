@@ -1,14 +1,26 @@
 #!/usr/bin/env python
-import lib.cli.Cli as Cli
-import lib.fs.File as File
-import lib.db.DB as DB
-import lib.actions as actions
-import lib.commons.Repository as Repository
+import deporter.cli.Cli as Cli
+import deporter.fs.File as File
+import deporter.db.DB as DB
+import deporter.actions as actions
+import deporter.commons.Repository as Repository
 import coloredlogs
+import logging
+import os
 coloredlogs.install()
 
+def GetSourceFile(ID: str):
+    source_dir = os.path.expanduser('~/.config/python-deporter/sources')
+    if not os.path.exists(source_dir):
+        logging.debug("Creating source_dir: '%s'" % source_dir)
+        os.system("mkdir -p %s" % source_dir)
+    source_file_path = os.path.join(source_dir, "%s.yml" % ID)
+    if not os.path.exists(source_file_path):
+        raise Exception("source file path '%s' doesn't exists" % source_file_path)
+    return source_file_path
+
 def do_list(config):
-    profile = actions.read_profile(File.absolute(config.source).read())
+    profile = actions.read_profile(File.absolute(GetSourceFile(config.source)).read())
     local_db = DB.new(config.update_db)
     repos = (local_db.platform(profile['platform'])
                      .user(profile['user'])
@@ -18,7 +30,7 @@ def do_list(config):
         print(repo)
 
 def do_migrate(config):
-    source = actions.read_profile(File.absolute(config.source).read())
+    source = actions.read_profile(File.absolute(GetSourceFile(config.source)).read())
     local_db = DB.new(config.update_db)
     repos = []
 
@@ -31,7 +43,7 @@ def do_migrate(config):
                          .get_repositories())
     
     if config.destination is not None:
-        destination = actions.read_profile(File.absolute(config.destination).read())
+        destination = actions.read_profile(File.absolute(GetSourceFile(config.destination)).read())
         repos = actions.migrate_repositories(source, destination, repos, {
             "mirror": False,
             "private": config.private,
@@ -39,7 +51,7 @@ def do_migrate(config):
         })
     
     if config.mirror is not None:
-        mirror = actions.read_profile(File.absolute(config.mirror).read())
+        mirror = actions.read_profile(File.absolute(GetSourceFile(config.mirror)).read())
         repos = actions.migrate_repositories(source, mirror, repos, {
             "mirror": True,
             "private": config.private,
@@ -50,7 +62,7 @@ def do_migrate(config):
         logging.error("should specify at least a destination or a mirror for the migration to happen")
 
 def do_delete(config):
-    target = actions.read_profile(File.absolute(config.source).read())
+    target = actions.read_profile(File.absolute(GetSourceFile(config.source)).read())
     local_db = DB.new(config.update_db)
 
     if config.target:
@@ -67,7 +79,7 @@ def do_delete(config):
              .user(target['user'])
              .set_repositories([]))
 
-if __name__ == "__main__":
+def main_cli():
     config = Cli.run()
     
     if config.verb == 'list':
@@ -76,3 +88,6 @@ if __name__ == "__main__":
         do_migrate(config)
     elif config.verb == 'delete':
         do_delete(config)
+
+if __name__ == "__main__":
+    main_cli()

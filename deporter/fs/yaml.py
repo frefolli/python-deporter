@@ -1,5 +1,5 @@
 from __future__ import annotations
-import lib.fs.File as File
+import deporter.fs.File as File
 import yaml
 import os
 

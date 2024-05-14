@@ -1,14 +1,20 @@
-import lib.db.DB as DB
-import lib.cache.Cache as Cache
-import lib.commons.Repository as Repository
-import lib.datetime as datetime
-import lib.actions as actions
+import deporter.db.DB as DB
+import deporter.cache.Cache as Cache
+import deporter.commons.Repository as Repository
+import deporter.datetime as datetime
+import deporter.actions as actions
 import logging
+import os
 
 class CacheDB(DB):
     def __init__(self, update: bool = False):
         super().__init__(update=update)
-        self._cache = Cache.new('.cache.yml', eager=False)
+        cache_dir = os.path.expanduser('~/.cache/python-deporter')
+        if not os.path.exists(cache_dir):
+            logging.debug("Creating cache_dir: '%s'" % cache_dir)
+            os.system("mkdir -p %s" % cache_dir)
+        cache_db_path = os.path.join(cache_dir, "cache_db.yml")
+        self._cache = Cache.new(cache_db_path, eager=False)
 
     def get_repositories(self) -> list[Repository]:
         platform = self._context['platform']

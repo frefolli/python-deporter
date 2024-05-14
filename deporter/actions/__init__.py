@@ -1,6 +1,6 @@
-import lib.commons.Repository as Repository
-import lib.commons.User as User
-import lib.commons.Platform as Platform
+import deporter.commons.Repository as Repository
+import deporter.commons.User as User
+import deporter.commons.Platform as Platform
 import logging
 
 def use_cached_repositories(repos, platform, user, as_dict: bool = False):

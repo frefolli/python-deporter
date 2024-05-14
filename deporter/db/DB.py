@@ -1,14 +1,14 @@
 from __future__ import annotations
 import abc
-import lib.commons.Platform as Platform
-import lib.commons.User as User
-import lib.commons.Repository as Repository
-import lib.commons.Credentials as Credentials
+import deporter.commons.Platform as Platform
+import deporter.commons.User as User
+import deporter.commons.Repository as Repository
+import deporter.commons.Credentials as Credentials
 
 class DB(abc.ABC):
     @staticmethod
     def new(update: bool = False) -> DB:
-        import lib.db.cache_db as impl
+        import deporter.db.cache_db as impl
         return impl.CacheDB(update=update)
 
     def __init__(self, update: bool = False):

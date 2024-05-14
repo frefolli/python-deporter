@@ -1,18 +1,18 @@
 from __future__ import annotations
 import abc
-import lib.commons.Credentials as Credentials
-import lib.commons.Repository as Repository
-import lib.commons.User as User
+import deporter.commons.Credentials as Credentials
+import deporter.commons.Repository as Repository
+import deporter.commons.User as User
 
 class Platform(abc.ABC):
     @staticmethod
     def from_dict(platform: dict) -> Platform:
-        import lib.commons.Gitea
-        import lib.commons.Github
+        import deporter.commons.Gitea
+        import deporter.commons.Github
         if platform['name'] == 'github':
-            return lib.commons.Github()
+            return deporter.commons.Github()
         elif platform['name'] == 'gitea':
-            return lib.commons.Gitea(instance=platform['url'])
+            return deporter.commons.Gitea(instance=platform['url'])
         else:
             raise Exception("unknown platform name '%s'" % platform['name'])
 

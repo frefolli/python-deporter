@@ -14,10 +14,10 @@ class File(abc.ABC):
     def absolute(path: str) -> File:
         ext = File.file_ext(path)
         if ext == "yml":
-            import lib.fs.yaml as impl_yaml
+            import deporter.fs.yaml as impl_yaml
             return impl_yaml.Yaml.absolute(path)
         elif ext == "json":
-            import lib.fs.json as impl_json
+            import deporter.fs.json as impl_json
             return impl_json.Json.absolute(path)
         else:
             raise Exception("unknown file extension '%s'" % ext)

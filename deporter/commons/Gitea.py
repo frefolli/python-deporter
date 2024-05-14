@@ -1,10 +1,10 @@
 from __future__ import annotations
-import lib.utils as utils
+import deporter.utils as utils
 
-import lib.commons.Platform as Platform
-import lib.commons.Credentials as Credentials
-import lib.commons.Repository as Repository
-import lib.commons.User as User
+import deporter.commons.Platform as Platform
+import deporter.commons.Credentials as Credentials
+import deporter.commons.Repository as Repository
+import deporter.commons.User as User
 
 import requests
 import logging
@@ -13,7 +13,7 @@ class Gitea(Platform):
     @staticmethod
     @utils.deprecated("Use Platform.from_dict instead")
     def from_env(key: str) -> Gitea:
-        import lib.secrets as secrets
+        import deporter.secrets as secrets
         return Gitea(secrets.get_env_or_raise("%s_GITEA_URL" % key))
 
     def __init__(self, instance: str):

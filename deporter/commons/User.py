@@ -1,4 +1,4 @@
-import lib.commons.Credentials as Credentials
+import deporter.commons.Credentials as Credentials
 
 class User:
     def __init__(self,

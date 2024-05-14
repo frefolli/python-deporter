@@ -1,6 +1,6 @@
 import os
-import lib.cache.Cache as Cache
-import lib.fs.File as File
+import deporter.cache.Cache as Cache
+import deporter.fs.File as File
 
 class FileCache(Cache):
     def __init__(self, path: str, eager: bool = False):

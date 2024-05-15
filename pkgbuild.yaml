@@ -4,7 +4,7 @@ people:
     email: "francesco.refolli@gmail.com"
     role: "Contributor & Maintainer"
 pkgname: "python-deporter"
-pkgver: "master"
+pkgver: "1.0.1-beta"
 pkgrel: 1
 pkgdesc: "CLI Utility for moving and handling multiple Git Server origins"
 license: 'GPL-3.0-or-later'
